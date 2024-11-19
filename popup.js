@@ -9,6 +9,17 @@ document.getElementById("start-scraping").addEventListener("click", () => {
     });
 });
 
+document.getElementById("start-scraping").addEventListener("click", () => {
+    const scrollLimit = document.getElementById("scroll-limit").value;
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.scripting.executeScript({
+            target: { tabId: tabs[0].id },
+            func: scrapeLinkedIn,
+            args: [parseInt(scrollLimit)]
+        });
+    });
+});
+
 function scrapeLinkedIn(scrollLimit) {
     let scrapedData = [];
 
@@ -18,19 +29,37 @@ function scrapeLinkedIn(scrollLimit) {
         );
         const usernames = document.querySelectorAll(".update-components-actor__single-line-truncate");
         const dates = document.querySelectorAll(".update-components-actor__sub-description");
+        const bios = document.querySelectorAll(".update-components-actor__description");
+        const images = document.querySelectorAll(
+            ".update-components-image--smart-grid .update-components-image__container .update-components-image__image-link"
+        );
 
         posts.forEach((post, index) => {
-            const text = post.innerText || "";
-            const username = usernames[index]?.innerText || "";
-            const date = dates[index]?.innerText || "";
+            const text = post.innerText.trim() || "none";
+            const username = usernames[index]?.innerText.trim() || "none";
+            const date = dates[index]?.innerText.trim() || "none";
+            const bio = bios[index]?.innerText.trim() || "none";
 
-            scrapedData.push({ text, username, date });
+            // Collect all image URLs in the post
+            const imageLinks = Array.from(images[index]?.querySelectorAll("img") || []).map(
+                (img) => img.src
+            );
+
+            const postData = {
+                text,
+                username,
+                date,
+                bio,
+                images: imageLinks.length > 0 ? imageLinks : ["none"], // Add images or "none"
+            };
+
+            scrapedData.push(postData);
         });
     };
 
     const randomDelay = () => {
         // Generate a random delay between 1 and 3 seconds
-        return Math.floor(Math.random() * 2000) + 1000;  // 1000ms to 3000ms
+        return Math.floor(Math.random() * 2000) + 1000; // 1000ms to 3000ms
     };
 
     let scrollCount = 0;
@@ -40,7 +69,7 @@ function scrapeLinkedIn(scrollLimit) {
         scrollCount++;
 
         if (scrollCount < scrollLimit) {
-            setTimeout(scrollPage, randomDelay());  // Random delay between scrolls
+            setTimeout(scrollPage, randomDelay()); // Random delay between scrolls
         } else {
             downloadData();
         }

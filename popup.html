@@ -1,16 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LinkedIn Scraper</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f3f6f8;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      background: #fff;
+      border: 1px solid #e1e9ee;
+      padding: 20px;
+      border-radius: 10px;
+      width: 320px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      font-size: 1.5em;
+      font-weight: 600;
+      color: #0077b5;
+    }
+
+    label {
+      font-size: 1em;
+      margin-bottom: 10px;
+      display: inline-block;
+      color: #555;
+    }
+
+    input[type="number"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      font-size: 1em;
+      margin: 10px 0;
+      border: 1px solid #d1d9de;
+      border-radius: 5px;
+      background-color: #f9fbfc;
+      color: #333;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #0077b5;
+      box-shadow: 0 0 4px rgba(0, 119, 181, 0.5);
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      font-weight: bold;
+      color: #fff;
+      background-color: #0077b5;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #005582;
+    }
+
+    button:active {
+      background-color: #004466;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    footer a {
+      color: #0077b5;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: #005582;
+    }
+  </style>
 </head>
 <body>
-  <h1>LinkedIn Scraper - By Ali Jahani</h1>
-  <form id="scraper-form">
-    <label for="scroll-limit">Scroll Limit:</label>
-    <input type="number" id="scroll-limit" value="5" min="1">
-    <button type="button" id="start-scraping">Start Scraping</button>
-  </form>
+  <div class="container">
+    <h1>LinkedIn Scraper</h1>
+    <form id="scraper-form">
+      <label for="scroll-limit">Scroll Limit:</label>
+      <input type="number" id="scroll-limit" value="5" min="1" placeholder="e.g., 5">
+      <button type="button" id="start-scraping">Start Scraping</button>
+    </form>
+    <footer>
+      <p>Powered by <a href="https://jahaniwww.com" target="_blank">Ali Jahani</a></p>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
 </body>
-<script src="popup.js"></script>
 </html>
